@@ -52,7 +52,7 @@ class Dashboard {
 
 	//Notifies the dashboard if a widget has a new value
 	widgetHasNewData(widget, data){
-		console.log('widgetHasNewData', widget, data);		
+	
 		//We need the key of the widget in the widgetstore
 		var widgetKey;
 		Object.keys(this._widgetStore).forEach(key => {if(this._widgetStore[key] == widget){ widgetKey = key }}, this);
@@ -68,14 +68,12 @@ class Dashboard {
 	//Allow widgets to subscribe to other widgets data changes
 	//This is especially useful when one widget loads data for other widgets that consume that data
 	subscribeToData(subscribeTo, widgetKey){
-		console.log('subscribeToData', subscribeTo, widgetKey);
+
 		if(this._dataSubscribers[subscribeTo] === undefined){
 			this._dataSubscribers[subscribeTo] = [];
 			this._dataSubscribers[subscribeTo].push(widgetKey);
 		} else {
-
 			//Check for uniqueness
-			console.log('unique', this._dataSubscribers[subscribeTo].indexOf(widgetKey), widgetKey)
 			if(this._dataSubscribers[subscribeTo].indexOf(widgetKey) === -1){
 				this._dataSubscribers[subscribeTo].push(widgetKey);
 			} else {
@@ -85,7 +83,7 @@ class Dashboard {
 	}
 
 	unsubscribeFromData(subscribeTo, widgetKey){
-		console.log('unsubscribeFromData', subscribeTo, widgetKey);
+		
 		if(this._hasActiveSubscriptions(subscribeTo)){
 			this._dataSubscribers[subscribeTo].splice(this._dataSubscribers[subscribeTo].indexOf(widgetKey), 1);
 		}
@@ -93,12 +91,10 @@ class Dashboard {
 
 	//Notifies subscribed widgets of the changed data and attempts to update them it via .updateDatasource method.
 	notifySubscribers(subscribeTo){
-		console.log('notifySubscribers', subscribeTo);
 		//If has active subscriptions
 		if(this._hasActiveSubscriptions(subscribeTo)){
 			this._dataSubscribers[subscribeTo]
 			.forEach(subscriber => { 
-				console.log('in foreach loop', this._dataStore[subscribeTo]);
 				this._widgetStore[subscriber].updateDatasource(this._dataStore[subscribeTo]); 
 			}, this);
 		}
