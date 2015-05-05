@@ -62,7 +62,7 @@ class ExampleResource extends Resource {
 
 	modify(){
 		//Note that to use jQuery, it must be defined before this.
-		return $(this.elem).html('Hey this is widgets content');
+		return $(this.elem).append('Hey this is widgets content');
 	}
 }
 
